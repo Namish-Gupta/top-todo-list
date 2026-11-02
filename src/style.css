@@ -1,0 +1,501 @@
+/* ==========================================================================
+   CSS Variables - Dark Theme (Inspired by VS Code/GNOME preferences)
+   ========================================================================== */
+:root {
+    --bg-main: #1e1e1e;
+    --bg-sidebar: #252526;
+    --bg-card: #2d2d30;
+    --bg-hover: #37373d;
+    --text-primary: #cccccc;
+    --text-secondary: #858585;
+    --accent: #007acc;
+    --accent-hover: #0098ff;
+    --danger: #f14c4c;
+    --danger-hover: #ff6b6b;
+    --priority-low: #89d185;
+    --priority-med: #cca700;
+    --priority-high: #f14c4c;
+    --border-color: #3c3c3c;
+}
+
+/* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ==========================================================================
+   Main Layout Structure
+   ========================================================================== */
+#content {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* ==========================================================================
+   Sidebar & Projects
+   ========================================================================== */
+.project-sidebar {
+    width: 280px;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem 1rem;
+    overflow-y: auto;
+}
+
+#add-project-btn {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px dashed var(--border-color);
+    padding: 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    transition: all 0.2s;
+}
+
+#add-project-btn:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--text-secondary);
+}
+
+.project-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.project-item:hover {
+    background-color: var(--bg-hover);
+}
+
+.project-item.active {
+    background-color: var(--bg-hover);
+    border-left: 4px solid var(--accent);
+}
+
+.project-title {
+    font-size: 1rem;
+    pointer-events: none; /* Prevents text from interfering with clicks */
+}
+
+.delete-project-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.delete-project-btn:hover {
+    color: var(--danger);
+}
+
+/* ==========================================================================
+   Main Todos Area
+   ========================================================================== */
+#todos-container {
+    flex: 1;
+    padding: 2rem 4rem;
+    overflow-y: auto;
+    background-color: var(--bg-main);
+}
+
+.add-task-btn {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    transition: background-color 0.2s;
+}
+
+.add-task-btn:hover {
+    background-color: var(--accent-hover);
+}
+
+/* ==========================================================================
+   Todo Cards
+   ========================================================================== */
+/*.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.complete-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-top: 0.25rem;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+.card h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.card p {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.notes {
+    grid-column: 1 / -1; // Spans full width when expanded 
+    background-color: var(--bg-main);
+    padding: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    border-left: 3px solid var(--accent);
+}
+
+// Priority Badges 
+span.low, span.med, span.high {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+span.low { background-color: rgba(137, 209, 133, 0.1); color: var(--priority-low); border: 1px solid var(--priority-low); }
+span.med { background-color: rgba(204, 167, 0, 0.1); color: var(--priority-med); border: 1px solid var(--priority-med); }
+span.high { background-color: rgba(241, 76, 76, 0.1); color: var(--priority-high); border: 1px solid var(--priority-high); }
+
+// Completed State
+.completed-task {
+    opacity: 0.5;
+}
+
+.completed-task h2,
+.completed-task p {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+/* Action Buttons Container 
+.action-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.action-buttons button {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background-color 0.2s;
+}
+
+.action-buttons button:hover {
+    background-color: var(--bg-hover);
+}
+
+.action-buttons .delete-btn {
+    margin-left: auto;
+    color: var(--danger);
+    border-color: var(--danger);
+}
+
+.action-buttons .delete-btn:hover {
+    background-color: var(--danger);
+    color: white;
+}
+*/
+
+/* ==========================================================================
+   Redesigned Todo Cards
+   ========================================================================== */
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+    
+    /* Switch from messy Grid to a structured Flex column layout */
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    border-color: #555;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* Header: Checkbox + Title */
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 1.15rem;
+    margin-left: 0.5rem;
+    margin-top: 0.2rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.complete-checkbox {
+    margin: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+/* Description Text */
+.card > p:not(.due-date):not(.notes) {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin: 0;
+    /* Indent 2rem to align perfectly with the title text, skipping the checkbox */
+    padding-left: 2rem; 
+}
+
+/* Priority Badges */
+span.low, span.med, span.high {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-left: 2rem; /* Align with description */
+}
+
+span.low { background-color: rgba(137, 209, 133, 0.1); color: var(--priority-low); border: 1px solid rgba(137, 209, 133, 0.3); }
+span.med { background-color: rgba(204, 167, 0, 0.1); color: var(--priority-med); border: 1px solid rgba(204, 167, 0, 0.3); }
+span.high { background-color: rgba(241, 76, 76, 0.1); color: var(--priority-high); border: 1px solid rgba(241, 76, 76, 0.3); }
+
+/* Due Date */
+.due-date {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin: 0;
+    padding-left: 2rem; /* Align with description */
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.due-date::before {
+    content: '📅'; 
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+/* Notes Area */
+.notes {
+    background-color: var(--bg-main);
+    padding: 0.8rem 1rem;
+    border-radius: 4px;
+    margin: 0.5rem 0 0 2rem; /* Align with description */
+    border-left: 3px solid var(--accent);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+/* Action Buttons Footer */
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.action-buttons button {
+    background-color: transparent;
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.action-buttons button:hover {
+    background-color: var(--bg-hover);
+    border-color: var(--text-secondary);
+}
+
+.action-buttons .delete-btn {
+    margin-left: 1rem; /* Push delete slightly further away */
+    color: var(--danger);
+    border-color: rgba(241, 76, 76, 0.4);
+}
+
+.action-buttons .delete-btn:hover {
+    background-color: var(--danger);
+    color: white;
+    border-color: var(--danger);
+}
+
+/* Completed State */
+.completed-task {
+    opacity: 0.6;
+    background-color: rgba(30, 30, 30, 0.5); 
+}
+
+.completed-task h2,
+.completed-task > p:not(.due-date):not(.notes) {
+    text-decoration: line-through;
+    color: #666;
+}
+
+/* ==========================================================================
+   HTML5 Dialog Modal (Task Form)
+   ========================================================================== */
+#task-modal {
+    margin: auto;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 500px;
+    color: var(--text-primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+#task-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+}
+
+#task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+#task-form input,
+#task-form select,
+#task-form textarea {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+#task-form input:focus,
+#task-form select:focus,
+#task-form textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+#task-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+#task-form button[type="submit"] {
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#task-form button[type="submit"]:hover {
+    background-color: var(--accent-hover);
+}
+
+#cancel-btn {
+    background-color: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+#cancel-btn:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.due-date {
+    font-weight: bold;
+    color: var(--accent); /* Highlights the formatted date */
+    font-size: 0.95rem;
+}
+
+/* Ensure the checkbox aligns neatly with the title */
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Override the previous checkbox margin since it's now inside the h2 */
+.complete-checkbox {
+    margin-top: 0;
+    width: 22px;
+    height: 22px;
+}
+
+.check-container {
+    display: flex;
+    align-items: center;
+}
